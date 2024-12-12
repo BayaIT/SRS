@@ -1,12 +1,15 @@
 import React, { useEffect, useState } from "react";
-import { useParams } from "react-router-dom";
+import { useParams, useNavigate } from "react-router-dom";
 import "../CompanyDetails.css"; // Подключаем стили
 
 const CompanyDetails = () => {
     const { id } = useParams();
+    const navigate = useNavigate(); // Для навигации
     const [company, setCompany] = useState(null);
     const [loading, setLoading] = useState(true);
     const [activeTab, setActiveTab] = useState("about"); // Управление вкладками
+    const [vacancies, setVacancies] = useState([]); // Хранение вакансий
+    const [vacanciesLoading, setVacanciesLoading] = useState(false);
 
     useEffect(() => {
         const fetchCompanyData = async () => {
@@ -23,6 +26,22 @@ const CompanyDetails = () => {
 
         fetchCompanyData();
     }, [id]);
+
+    const fetchVacancies = async () => {
+        if (vacancies.length > 0) return; // Не загружать повторно, если данные уже есть
+        setVacanciesLoading(true);
+        try {
+            const response = await fetch(
+                `https://api.hh.ru/vacancies?employer_id=${id}`
+            );
+            const data = await response.json();
+            setVacancies(data.items || []);
+        } catch (error) {
+            console.error("Ошибка загрузки вакансий:", error);
+        } finally {
+            setVacanciesLoading(false);
+        }
+    };
 
     if (loading) return <p>Загрузка данных...</p>;
     if (!company) return <p>Данные о компании не найдены!</p>;
@@ -57,10 +76,13 @@ const CompanyDetails = () => {
                         О компании
                     </button>
                     <button
-                        className={`tab-button ${activeTab === "info" ? "active" : ""}`}
-                        onClick={() => setActiveTab("info")}
+                        className={`tab-button ${activeTab === "vacancies" ? "active" : ""}`}
+                        onClick={() => {
+                            setActiveTab("vacancies");
+                            fetchVacancies();
+                        }}
                     >
-                        Информация
+                        Вакансии
                     </button>
                 </div>
                 <div className="tab-content">
@@ -71,13 +93,32 @@ const CompanyDetails = () => {
                                 : "Описание не указано"}
                         </p>
                     )}
-                    {activeTab === "info" && (
-                        <p className="company-description">
-                            Компания находится в {company.areas?.[0]?.name || "неизвестной локации"}.
-                            {company.open_vacancies
-                                ? ` На данный момент открыто ${company.open_vacancies} вакансий.`
-                                : " Текущие вакансии не указаны."}
-                        </p>
+                    {activeTab === "vacancies" && (
+                        <div>
+                            {vacanciesLoading && <p>Загрузка вакансий...</p>}
+                            {vacancies.length === 0 && !vacanciesLoading && (
+                                <p>Вакансий не найдено.</p>
+                            )}
+                            <ul className="vacancies-list">
+                                {vacancies.map((vacancy) => (
+                                    <li
+                                        key={vacancy.id}
+                                        className="vacancy-item"
+                                        onClick={() => navigate(`/job/${vacancy.id}`)} // Переход к JobDetails
+                                    >
+                                        <span className="vacancy-title">{vacancy.name}</span>
+                                        <p>
+                                            Зарплата:{" "}
+                                            {vacancy.salary
+                                                ? `${vacancy.salary.from || 0} - ${
+                                                    vacancy.salary.to || "Не указано"
+                                                } ${vacancy.salary.currency}`
+                                                : "Не указана"}
+                                        </p>
+                                    </li>
+                                ))}
+                            </ul>
+                        </div>
                     )}
                 </div>
             </div>

@@ -48,7 +48,7 @@ const ProjectJobs = () => {
 
     return (
         <div>
-            <h1 style={{ color: "black" }}>Все вакансии</h1>
+            <h1 style={{ color: "black", marginTop: "100px" }}>Все вакансии</h1>
             <div style={{ display: "flex", flexWrap: "wrap", gap: "16px" }}>
                 {jobs.map((job) => (
                     <div

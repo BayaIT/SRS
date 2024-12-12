@@ -1,6 +1,6 @@
 // eslint-disable-next-line no-unused-vars
-import React from "react";
-import { useLocation, useNavigate } from "react-router-dom";
+import React, { useEffect, useState } from "react";
+import { useLocation, useNavigate, useParams } from "react-router-dom";
 
 // Функция для удаления HTML-тегов из строки
 const removeHtmlTags = (str) => {
@@ -10,7 +10,36 @@ const removeHtmlTags = (str) => {
 const JobDetails = () => {
     const location = useLocation();
     const navigate = useNavigate();
-    const job = location.state?.job;
+    const { id } = useParams();
+    const [job, setJob] = useState(location.state?.job || null); // Берем из state или загружаем
+    const [loading, setLoading] = useState(!job); // Загружаем, если job нет в state
+
+    useEffect(() => {
+        if (!job) {
+            const fetchJobDetails = async () => {
+                try {
+                    const response = await fetch(`https://api.hh.ru/vacancies/${id}`);
+                    if (!response.ok) throw new Error("Ошибка загрузки вакансии");
+                    const data = await response.json();
+                    setJob(data);
+                } catch (error) {
+                    console.error("Ошибка загрузки данных о вакансии:", error);
+                } finally {
+                    setLoading(false);
+                }
+            };
+
+            fetchJobDetails();
+        }
+    }, [id, job]);
+
+    if (loading) {
+        return (
+            <p style={{ color: "black", fontSize: "18px", textAlign: "center" }}>
+                Загрузка данных...
+            </p>
+        );
+    }
 
     if (!job) {
         return (
@@ -165,7 +194,6 @@ const JobDetails = () => {
     return (
         <div>
             {companyInfoBlock}
-
             {jobInfoBlock}
         </div>
     );
