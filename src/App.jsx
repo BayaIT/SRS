@@ -8,6 +8,7 @@ import ProjectJobs from "./components/ProjectJobs.jsx";
 import JobDetails from "./components/JobDetails.jsx";
 import SearchJobs from "./components/SearchJobs.jsx";
 import SearchResultsPage from "./components/SearchResultPage.jsx";
+import CompanyDetails from "./components/CompanyDetails.jsx";
 
 
 function App() {
@@ -30,6 +31,7 @@ function App() {
                         <Route path="/search-results" element={<SearchResultsPage />} />
                         <Route path="/" element={<ProjectJobs />} />
                         <Route path="/job/:id" element={<JobDetails />} />
+                        <Route path="/company/:id" element={<CompanyDetails />} />
                 </Routes>
             </main>
         </Router>

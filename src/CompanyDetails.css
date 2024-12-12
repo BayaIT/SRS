@@ -1,0 +1,100 @@
+/* Основные стили */
+body {
+    font-family: Arial, sans-serif;
+    background-color: #f5f5f5;
+    margin: 0;
+    padding: 0;
+}
+
+/* Контейнер */
+.company-details-container {
+    display: flex;
+    max-width: 800px;
+    min-width: 800px;
+    margin: 20px auto;
+    background-color: #fff;
+    border-radius: 10px;
+    overflow: hidden;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    min-height: 400px; /* Устанавливаем минимальную высоту */
+    height: auto;
+}
+
+/* Sidebar */
+.sidebar {
+    width: 10%;
+    background-color: #f0f0f0;
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    border-right: 1px solid #ddd;
+}
+
+.sidebar-logo {
+    width: 100px;
+    height: 100px;
+    border-radius: 10px;
+    object-fit: cover;
+    margin-bottom: 20px;
+    background-color: #e0e0e0;
+}
+
+.sidebar-info {
+    margin: 10px 0;
+    font-size: 14px;
+    color: #555;
+    text-align: center;
+}
+
+/* Main Content */
+.main-content {
+    flex: 1;
+    padding: 20px;
+}
+
+.company-title {
+    font-size: 24px;
+    color: #333;
+    margin-bottom: 20px;
+}
+
+/* Tabs Row */
+.tabs-row {
+    display: flex;
+    gap: 10px;
+    margin-bottom: 20px;
+}
+
+.tab-button {
+    background-color: #f0f0f0;
+    color: #333;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 14px;
+    transition: all 0.3s ease;
+}
+
+.tab-button.active {
+    background-color: #0073e6;
+    color: #fff;
+}
+
+.tab-button:hover {
+    background-color: #005bb5;
+    color: #fff;
+}
+
+/* Tab Content */
+.tab-content {
+    font-size: 16px;
+    color: #333;
+    line-height: 1.5;
+}
+
+.company-description {
+    text-align: left;
+    margin: 0;
+}

@@ -2,6 +2,11 @@
 import React from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 
+// Функция для удаления HTML-тегов из строки
+const removeHtmlTags = (str) => {
+    return str.replace(/<\/?[^>]+(>|$)/g, ""); // Убирает все HTML теги
+};
+
 const JobDetails = () => {
     const location = useLocation();
     const navigate = useNavigate();
@@ -25,15 +30,16 @@ const JobDetails = () => {
                 job.salary.currency || ""
             }`
             : "Не указана",
-        Требования: job.snippet?.requirement || "Не указаны",
-        Обязанности: job.snippet?.responsibility || "Не указаны",
+        Требования: removeHtmlTags(job.snippet?.requirement || "Не указаны"),
+        Обязанности: removeHtmlTags(job.snippet?.responsibility || "Не указаны"),
     };
 
-    return (
+    // Блок вакансии
+    const jobInfoBlock = (
         <div
             style={{
                 padding: "16px",
-                maxWidth: "800px",
+                maxWidth: "1200px",
                 margin: "0 auto",
                 border: "2px solid black",
                 borderRadius: "8px",
@@ -95,6 +101,72 @@ const JobDetails = () => {
             >
                 Открыть вакансию на HH.ru
             </button>
+        </div>
+    );
+
+    // Блок с информацией о компании
+    const companyInfoBlock = (
+        <div
+            style={{
+                display: "flex",
+                flexDirection: "row",
+                alignItems: "flex-start",
+                width: "380px",
+                maxWidth: "800px",
+                padding: "16px",
+                border: "1px solid #0077cc",
+                borderRadius: "8px",
+                backgroundColor: "#e9f7fd",
+                boxShadow: "0 4px 6px rgba(0, 0, 0, 0.1)",
+                marginBottom: "32px",
+            }}
+        >
+            {/* Логотип компании */}
+            {job.employer.logo_urls?.original && (
+                <div style={{ marginRight: "16px" }}>
+                    <img
+                        src={job.employer.logo_urls.original}
+                        alt={`Логотип компании ${job.employer.name}`}
+                        style={{
+                            width: "120px",
+                            height: "120px",
+                            borderRadius: "8px",
+                            objectFit: "contain",
+                        }}
+                    />
+                </div>
+            )}
+
+            {/* Информация о компании */}
+            <div style={{ display: "flex", flexDirection: "column", flex: 1 }}>
+                {/* Название компании */}
+                <p style={{ color: "black", marginBottom: "16px", fontSize: "20px" }}>
+                    <strong>Название:</strong> {job.employer.name}
+                </p>
+
+                {/* Кнопка перехода на страницу компании */}
+                <button
+                    onClick={() => navigate(`/company/${job.employer.id}`)}
+                    style={{
+                        padding: "8px 16px",
+                        backgroundColor: "#0077cc",
+                        color: "white",
+                        border: "none",
+                        borderRadius: "4px",
+                        cursor: "pointer",
+                    }}
+                >
+                    Подробнее о компании
+                </button>
+            </div>
+        </div>
+    );
+
+    return (
+        <div>
+            {companyInfoBlock}
+
+            {jobInfoBlock}
         </div>
     );
 };
