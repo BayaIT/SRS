@@ -1,0 +1,42 @@
+/* Основные стили для навбара */
+#navbar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    height: 80px;
+    padding: 0 20px; /* Отступы по бокам */
+    background-color: white;
+    border-bottom: 1px solid #c9cacc;
+    position: fixed; /* Закрепить в верхней части */
+    top: 0;
+    left: 0;
+    width: 100%;
+    z-index: 10; /* Чтобы navbar был поверх контента */
+    box-sizing: border-box; /* Учитываем padding при расчете ширины */
+    overflow: hidden; /* Избегаем прокрутки по горизонтали */
+}
+
+/* Стили для логотипа */
+#navbar .logo {
+    font-size: 24px;
+    font-weight: bold;
+}
+
+/* Стили для выпадающего меню */
+#navbar .dropdown ul {
+    display: flex;
+    list-style: none;
+    gap: 20px;
+}
+
+#navbar .dropdown ul li a {
+    text-decoration: none;
+    color: #62646a;
+    font-size: 18px;
+    font-weight: 600;
+}
+
+/* Стили для навигационных ссылок при наведении */
+#navbar .dropdown ul li a:hover {
+    color: #1dbf73;
+}

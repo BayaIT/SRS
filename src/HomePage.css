@@ -1,0 +1,61 @@
+/* General layout */
+.home-container {
+    display: flex;
+    min-height: 100vh; /* Ensure the container stretches to the full height of the screen */
+}
+
+.sidebar {
+    position: fixed; /* Fixed position to keep the sidebar on the left side */
+    top: 80px;
+    left: 0;
+    width: 240px; /* Sidebar width */
+    background-color: #ffffff;
+    color: black;
+    padding: 20px;
+    height: 100vh; /* Sidebar stretches vertically */
+    overflow-y: auto; /* Allows scrolling in the sidebar if needed */
+    z-index: 1000; /* Ensures the sidebar stays above other content */
+    border: 1px solid #ddd;
+}
+
+.sidebar ul {
+    list-style-type: none;
+    padding: 0;
+}
+
+.sidebar li {
+    margin: 10px 0;
+    font-size: 16px;
+}
+
+.content {
+    margin-left: 260px; /* Add space on the left for the fixed sidebar */
+    padding: 16px;
+    width: calc(100% - 260px); /* Make the content width adjust to the sidebar's width */
+    color: #1a1a1a;
+    text-align: left;
+}
+
+.cards-wrapper {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); /* Responsive grid */
+    gap: 16px; /* Space between cards */
+}
+
+.card-container {
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    padding: 16px;
+    width: 100%;
+    max-width: 560px;
+    height: 150px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    transition: box-shadow 0.3s ease, transform 0.3s ease;
+    background-color: #fff;
+    margin: 10px;
+}
+
+.card-container:hover {
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+    transform: translateY(-5px);
+}
