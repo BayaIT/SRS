@@ -1,4 +1,3 @@
-// SearchJobs.js
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 
@@ -6,31 +5,24 @@ const SearchJobs = () => {
     const [query, setQuery] = useState(""); // Для хранения поискового запроса
     const navigate = useNavigate();
 
-    const handleSearch = () => {
+    const handleSearch = (e) => {
+        e.preventDefault(); // Предотвращаем перезагрузку страницы
         if (!query.trim()) return; // Если запрос пустой, не отправляем запрос
 
-        // Перенаправляем на страницу с результатами поиска, передавая запрос в состояние
+        // Перенаправляем на страницу с результатами поиска
         navigate("/search-results", { state: { query } });
     };
 
     return (
-        <div style={{ padding: "16px", color: "black" }}>
-            <h1>Поиск вакансий</h1>
-
-            {/* Форма поиска */}
-            <div>
-                <input
-                    type="text"
-                    placeholder="Введите ключевые слова"
-                    value={query}
-                    onChange={(e) => setQuery(e.target.value)}
-                    style={{ padding: "8px", fontSize: "16px", marginRight: "8px" }}
-                />
-                <button onClick={handleSearch} style={{ padding: "8px 16px" }}>
-                    Найти
-                </button>
-            </div>
-        </div>
+        <form className="search-form" onSubmit={handleSearch}>
+            <input
+                type="text"
+                placeholder="Поиск вакансий..."
+                value={query}
+                onChange={(e) => setQuery(e.target.value)}
+                className="search-input"
+            />
+        </form>
     );
 };
 

@@ -1,6 +1,7 @@
 import React from "react";
 import { Link } from "react-router-dom";
-import "../Navbar.css"
+import SearchJobs from "./SearchJobs"; // Импортируем компонент поиска
+import "../Navbar.css"; // Подключаем стили для Navbar
 
 const Navbar = () => {
     return (
@@ -15,6 +16,10 @@ const Navbar = () => {
                         <Link to="/jobs">Jobs</Link>
                     </li>
                 </ul>
+            </div>
+            {/* Добавляем компонент поиска */}
+            <div className="navbar-search">
+                <SearchJobs />
             </div>
         </div>
     );

@@ -23,10 +23,6 @@ function App() {
                     <Route path="/jobs" element={<JobList />} />
                 </Routes>
 
-                <SearchJobs>
-                    <SearchJobs />
-                </SearchJobs>
-
                 <Routes>
                         <Route path="/search-results" element={<SearchResultsPage />} />
                         <Route path="/" element={<ProjectJobs />} />
