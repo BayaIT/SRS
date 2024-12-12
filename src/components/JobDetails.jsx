@@ -15,6 +15,20 @@ const JobDetails = () => {
         );
     }
 
+    // Полезные данные, которые мы хотим отобразить
+    const usefulData = {
+        Название: job.name,
+        Компания: job.employer?.name,
+        Город: job.area?.name,
+        Зарплата: job.salary
+            ? `${job.salary.from || "-"} - ${job.salary.to || "-"} ${
+                job.salary.currency || ""
+            }`
+            : "Не указана",
+        Требования: job.snippet?.requirement || "Не указаны",
+        Обязанности: job.snippet?.responsibility || "Не указаны",
+    };
+
     return (
         <div
             style={{
@@ -27,6 +41,7 @@ const JobDetails = () => {
                 boxShadow: "0 4px 6px rgba(0, 0, 0, 0.1)",
             }}
         >
+            {/* Кнопка назад */}
             <button
                 onClick={() => navigate(-1)}
                 style={{
@@ -51,30 +66,35 @@ const JobDetails = () => {
             >
                 Назад
             </button>
+
             <h1 style={{ color: "black", fontSize: "24px", marginBottom: "16px" }}>
-                {job.name}
+                Детали вакансии
             </h1>
-            <p style={{ color: "black", marginBottom: "8px" }}>
-                <strong>Компания:</strong> {job.employer.name}
-            </p>
-            <p style={{ color: "black", marginBottom: "8px" }}>
-                <strong>Город:</strong> {job.area.name}
-            </p>
-            <p style={{ color: "black", marginBottom: "8px" }}>
-                <strong>Описание:</strong>
-            </p>
-            <div
-                style={{ color: "black", marginBottom: "16px" }}
-                dangerouslySetInnerHTML={{
-                    __html: job.snippet.requirement || "Не указано",
+
+            {/* Вывод полезных данных */}
+            <div>
+                {Object.entries(usefulData).map(([key, value]) => (
+                    <p key={key} style={{ marginBottom: "8px", color: "black" }}>
+                        <strong>{key}:</strong> {value}
+                    </p>
+                ))}
+            </div>
+
+            {/* Кнопка перехода на HH.ru */}
+            <button
+                onClick={() => window.open(job.alternate_url, "_blank")}
+                style={{
+                    marginTop: "16px",
+                    padding: "8px 16px",
+                    backgroundColor: "#0077cc",
+                    color: "white",
+                    border: "none",
+                    borderRadius: "4px",
+                    cursor: "pointer",
                 }}
-            />
-            <p style={{ color: "black", marginBottom: "16px" }}>
-                <strong>Зарплата:</strong>{" "}
-                {job.salary
-                    ? `${job.salary.from || "-"} - ${job.salary.to || "-"}`
-                    : "Не указана"}
-            </p>
+            >
+                Открыть вакансию на HH.ru
+            </button>
         </div>
     );
 };
