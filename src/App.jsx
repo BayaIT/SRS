@@ -6,7 +6,6 @@ import HomePage from "./components/HomePage";
 import JobList from "./components/JobList";
 import ProjectJobs from "./components/ProjectJobs.jsx";
 import JobDetails from "./components/JobDetails.jsx";
-import SearchJobs from "./components/SearchJobs.jsx";
 import SearchResultsPage from "./components/SearchResultPage.jsx";
 import CompanyDetails from "./components/CompanyDetails.jsx";
 
