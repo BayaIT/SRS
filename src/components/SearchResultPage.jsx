@@ -45,15 +45,21 @@ const SearchResultsPage = () => {
     }, [query]);
 
     return (
-        <div style={{ padding: "16px", color: "black" }}>
-            <h1>Результаты поиска: "{query}"</h1>
+        <div style={{ padding: "16px", color: "black", marginTop: "60px" }}>
+            <h2>Результаты поиска: "{query}"</h2>
 
             {/* Выводим состояние загрузки или ошибки */}
             {loading && <p>Загрузка вакансий...</p>}
             {error && <p style={{ color: "red" }}>Ошибка: {error}</p>}
 
             {/* Список вакансий */}
-            <div style={{ display: "flex", flexWrap: "wrap", gap: "16px", marginTop: "20px" }}>
+            <div style={{
+                display: "flex",
+                flexWrap: "wrap",
+                gap: "16px",
+                justifyContent: "center", // Горизонтальное центрирование
+                alignItems: "center",
+            }}>
                 {jobs.length > 0 ? (
                     jobs.map((job) => (
                         <div
@@ -63,23 +69,26 @@ const SearchResultsPage = () => {
                                 borderRadius: "8px",
                                 padding: "16px",
                                 maxWidth: "300px",
+                                minWidth: "300px",
                                 cursor: "pointer",
                                 background: "#f9f9f9",
                                 boxShadow: "0 4px 6px rgba(0, 0, 0, 0.1)",
                                 transition: "transform 0.2s, box-shadow 0.2s",
+                                maxHeight: "180px",
+                                minHeight: "180px",
                             }}
                             onClick={() => navigate(`/job/${job.id}`, { state: { job } })}
                         >
                             <h2 style={{ fontSize: "18px", margin: "0 0 8px", color: "black" }}>
                                 {job.name}
                             </h2>
-                            <p style={{ margin: "0 0 4px", color: "black" }}>
+                            <p style={{ margin: "0 0 4px", color: "black", textAlign: "left" }}>
                                 <strong>Компания:</strong> {job.employer.name}
                             </p>
-                            <p style={{ margin: "0 0 4px", color: "black" }}>
+                            <p style={{ margin: "0 0 4px", color: "black", textAlign: "left" }}>
                                 <strong>Город:</strong> {job.area.name}
                             </p>
-                            <p style={{ margin: "0", color: "black" }}>
+                            <p style={{ margin: "0", color: "black", textAlign: "left" }}>
                                 <strong>Зарплата:</strong>{" "}
                                 {job.salary ? `${job.salary.from || "-"} - ${job.salary.to || "-"} ${job.salary.currency || ""}` : "Не указана"}
                             </p>
