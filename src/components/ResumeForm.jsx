@@ -1,6 +1,4 @@
-// eslint-disable-next-line no-unused-vars
 import React, { useState } from "react";
-import "../ResumeForm.css";
 
 // eslint-disable-next-line react/prop-types
 const ResumeForm = ({ onSave, step }) => {
@@ -11,8 +9,8 @@ const ResumeForm = ({ onSave, step }) => {
         birthday: "",
         phoneNumber: "",
         experience: [{ position: "", company: "", years: "" }],
-        education: "", // Добавлено поле для образования
-        skills: "", // Добавлено поле для навыков
+        education: "",
+        skills: "",
     });
 
     const handleChange = (e) => {
@@ -29,98 +27,100 @@ const ResumeForm = ({ onSave, step }) => {
     const handleAddExperience = () => {
         setFormData({
             ...formData,
-            experience: [...formData.experience, { position: "", company: "", years: "" }]
+            experience: [...formData.experience, { position: "", company: "", years: "" }],
         });
     };
 
     const handleSubmit = (e) => {
         e.preventDefault();
-        onSave(formData); // Сохраняем текущий шаг
+        onSave(formData);
     };
 
     return (
         <form onSubmit={handleSubmit}>
             {step === 1 && (
                 <>
-                    <label>Фамилия:</label>
-                    <input
-                        type="text"
-                        name="surname"
-                        value={formData.surname}
-                        onChange={handleChange}
-                        required
-                    />
-                    <label>Имя:</label>
-                    <input
-                        type="text"
-                        name="name"
-                        value={formData.name}
-                        onChange={handleChange}
-                        required
-                    />
-                    <label>Город или регион, где живёте:</label>
-                    <input
-                        type="text"
-                        name="city"
-                        value={formData.city}
-                        onChange={handleChange}
-                        required
-                    />
-                    <label>Дата рождения:</label>
-                    <input
-                        type="date"
-                        name="birthday"
-                        value={formData.birthday}
-                        onChange={handleChange}
-                        required
-                    />
-                    <label>Номер телефона:</label>
-                    <input
-                        type="tel"
-                        name="phoneNumber"
-                        placeholder="+996"
-                        value={formData.phoneNumber}
-                        onChange={handleChange}
-                        required
-                    />
+                    <h4 className="text-secondary mb-3">Основная информация</h4>
+                    <div className="mb-3">
+                        <label className="form-label">Фамилия:</label>
+                        <input
+                            type="text"
+                            name="surname"
+                            value={formData.surname}
+                            onChange={handleChange}
+                            className="form-control"
+                            placeholder="Введите фамилию"
+                            required
+                        />
+                    </div>
+                    <div className="mb-3">
+                        <label className="form-label">Имя:</label>
+                        <input
+                            type="text"
+                            name="name"
+                            value={formData.name}
+                            onChange={handleChange}
+                            className="form-control"
+                            placeholder="Введите имя"
+                            required
+                        />
+                    </div>
+                    <div className="mb-3">
+                        <label className="form-label">Город:</label>
+                        <input
+                            type="text"
+                            name="city"
+                            value={formData.city}
+                            onChange={handleChange}
+                            className="form-control"
+                            placeholder="Ваш город проживания"
+                            required
+                        />
+                    </div>
+                    <div className="mb-3">
+                        <label className="form-label">Дата рождения:</label>
+                        <input
+                            type="date"
+                            name="birthday"
+                            value={formData.birthday}
+                            onChange={handleChange}
+                            className="form-control"
+                            required
+                        />
+                    </div>
                 </>
             )}
 
             {step === 2 && (
                 <>
-                    <h4>Опыт работы:</h4>
+                    <h4 className="text-secondary mb-3">Опыт работы</h4>
                     {formData.experience.map((job, index) => (
-                        <div key={index}>
-                            <label>Должность:</label>
+                        <div key={index} className="mb-3 p-3 border rounded bg-light">
+                            <label className="form-label">Должность:</label>
                             <input
                                 type="text"
                                 name="position"
+                                data-index={index}
                                 value={job.position}
                                 onChange={handleChange}
-                                data-index={index}
+                                className="form-control mb-2"
+                                placeholder="Введите должность"
                                 required
                             />
-                            <label>Компания:</label>
+                            <label className="form-label">Компания:</label>
                             <input
                                 type="text"
                                 name="company"
+                                data-index={index}
                                 value={job.company}
                                 onChange={handleChange}
-                                data-index={index}
-                                required
-                            />
-                            <label>Годы работы:</label>
-                            <input
-                                type="text"
-                                name="years"
-                                value={job.years}
-                                onChange={handleChange}
-                                data-index={index}
+                                className="form-control mb-2"
+                                placeholder="Введите компанию"
                                 required
                             />
                         </div>
                     ))}
-                    <button type="button" onClick={handleAddExperience}>
+                    <button type="button" className="btn btn-outline-secondary" onClick={handleAddExperience}>
                         Добавить опыт
                     </button>
                 </>
@@ -128,26 +128,34 @@ const ResumeForm = ({ onSave, step }) => {
 
             {step === 3 && (
                 <>
-                    <label>Образование:</label>
-                    <input
-                        type="text"
-                        name="education"
-                        value={formData.education}
-                        onChange={handleChange}
-                        required
-                    />
-                    <label>Навыки:</label>
-                    <input
-                        type="text"
-                        name="skills"
-                        value={formData.skills}
-                        onChange={handleChange}
-                        required
-                    />
+                    <h4 className="text-secondary mb-3">Образование и навыки</h4>
+                    <div className="mb-3">
+                        <label className="form-label">Образование:</label>
+                        <input
+                            type="text"
+                            name="education"
+                            value={formData.education}
+                            onChange={handleChange}
+                            className="form-control"
+                            placeholder="Введите ваше образование"
+                            required
+                        />
+                    </div>
+                    <div className="mb-3">
+                        <label className="form-label">Навыки:</label>
+                        <input
+                            type="text"
+                            name="skills"
+                            value={formData.skills}
+                            onChange={handleChange}
+                            className="form-control"
+                            placeholder="Перечислите ваши навыки"
+                            required
+                        />
+                    </div>
                 </>
             )}
-
-            <button type="submit">
+            <button type="submit" className="btn btn-primary w-100 mt-3">
                 {step < 3 ? "Сохранить и продолжить" : "Завершить"}
             </button>
         </form>
