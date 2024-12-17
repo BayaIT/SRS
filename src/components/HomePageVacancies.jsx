@@ -5,20 +5,15 @@ const HomePageVacancies = () => {
     const [jobs, setJobs] = useState([]);
     const [loading, setLoading] = useState(false);
     const [error, setError] = useState(null);
-    const [page, setPage] = useState(1); // Пагинация
-    const [images, setImages] = useState([]); // Состояние для картинок
+    const [page, setPage] = useState(1);
+    const [images, setImages] = useState([]);
     const navigate = useNavigate();
 
-    // Запрос вакансий
     const fetchJobs = async (currentPage) => {
         setLoading(true);
         try {
             const response = await fetch(
-                `https://api.hh.ru/vacancies?text=Программирование&area=48&per_page=20&page=${currentPage}`,
-                {
-                    method: "GET",
-                    headers: { "Content-Type": "application/json" },
-                }
+                `https://api.hh.ru/vacancies?text=Программирование&area=48&per_page=20&page=${currentPage}`
             );
 
             if (!response.ok) {
@@ -39,11 +34,10 @@ const HomePageVacancies = () => {
         }
     };
 
-    // Запрос изображений с Unsplash
-    const fetchImages = async () => {
+    const fetchImages = async (currentPage) => {
         try {
             const response = await fetch(
-                `https://api.unsplash.com/search/photos?query=programming&client_id=vyGV-cW8GPANcXScw38S_0l1o1frMoAjkKuhLMN5MDA`
+                `https://api.unsplash.com/search/photos?query=programming&page=${currentPage}&per_page=20&client_id=vyGV-cW8GPANcXScw38S_0l1o1frMoAjkKuhLMN5MDA`
             );
 
             if (!response.ok) {
@@ -51,21 +45,38 @@ const HomePageVacancies = () => {
             }
 
             const data = await response.json();
-            setImages(data.results);
+            setImages((prevImages) => [...prevImages, ...data.results]);
         } catch (err) {
             console.error(err);
         }
     };
 
     useEffect(() => {
-        fetchJobs(page); // Запрос вакансий при изменении страницы
-        fetchImages(); // Запрос изображений с Unsplash
+        fetchJobs(page);
+        fetchImages(page);
     }, [page]);
 
     const loadMoreJobs = () => {
-        setPage((prevPage) => prevPage + 1); // Переход к следующей странице
+        setPage((prevPage) => prevPage + 1);
     };
 
+    const getSafeImage = (index, job) => {
+        if (images[index]?.urls?.regular) {
+            return images[index].urls.regular;
+        }
+        if (job.employer.logo_urls?.original) {
+            return job.employer.logo_urls.original;
+        }
+        return "https://via.placeholder.com/250x250";
+    };
+
+    const handleJobClick = (job) => {
+        navigate(`/job/${job.id}`, { state: { job } });
+    };
+
+    const handleCompanyClick = (company) => {
+        navigate(`/company/${company.id}`, { state: { company } });
+    };
     if (error) return <p className="text-black">Ошибка: {error}</p>;
 
     return (
@@ -73,15 +84,18 @@ const HomePageVacancies = () => {
             <h2 className="text-center my-4 text-black">Вакансии для вас</h2>
             <div className="d-flex flex-column align-items-center">
                 {jobs.map((job, index) => (
-                    <div
-                        key={job.id}
-                        className="mb-4"
-                        onClick={() => navigate(`/job/${job.id}`, { state: { job } })}
-                    >
-                        <div className="card shadow-sm border-2 border-dark min-w-[780px] max-w-[780px]">
+                    <div key={job.id} className="mb-4">
+                        <div
+                            style={{
+                                minWidth: "780px",
+                                maxWidth: "780px",
+                                padding: "6px",
+                            }}
+                            className="card shadow-sm border-2 border-dark"
+                        >
                             <div className="d-flex">
                                 <img
-                                    src={images[index]?.urls?.regular || "https://via.placeholder.com/250x250"}
+                                    src={getSafeImage(index, job)}
                                     alt="card-image"
                                     className="card-img-left"
                                     style={{
@@ -91,7 +105,7 @@ const HomePageVacancies = () => {
                                         borderRadius: "8px",
                                     }}
                                 />
-                                <div className="card-body" style={{ paddingLeft: "16px" }}>
+                                <div className="card-body d-flex flex-column" style={{paddingLeft: "16px"}}>
                                     <h5 className="card-title">{job.name}</h5>
                                     <p className="card-text">
                                         <strong>Компания:</strong> {job.employer.name}
@@ -105,7 +119,22 @@ const HomePageVacancies = () => {
                                             ? `${job.salary.from || "Не указана"} - ${job.salary.to || "Не указана"}`
                                             : "Не указана"}
                                     </p>
-                                    <button className="btn btn-primary">Подробнее</button>
+                                    <div className="mt-auto d-flex justify-content-end">
+                                        <button
+                                            onClick={() => handleCompanyClick(job.employer)}
+                                            className="btn btn-outline-dark me-2"
+                                            style={{padding: "6px 12px"}}
+                                        >
+                                            О компании
+                                        </button>
+                                        <button
+                                            onClick={() => handleJobClick(job)}
+                                            className="btn btn-dark"
+                                            style={{padding: "6px 12px"}}
+                                        >
+                                            Подробнее
+                                        </button>
+                                    </div>
                                 </div>
                             </div>
                         </div>
@@ -116,10 +145,7 @@ const HomePageVacancies = () => {
                 <p className="text-center mt-4">Загрузка...</p>
             ) : (
                 <div className="text-center mt-4">
-                    <button
-                        onClick={loadMoreJobs}
-                        className="btn btn-secondary"
-                    >
+                    <button onClick={loadMoreJobs} className="btn btn-secondary">
                         Показать еще
                     </button>
                 </div>

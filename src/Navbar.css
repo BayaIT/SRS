@@ -39,22 +39,6 @@
     color: #000000; /* Цвет при наведении */
 }
 
-/* Линия под текстом при наведении */
-#navbar .dropdown ul li a::after {
-    content: '';
-    position: absolute;
-    bottom: 0;
-    left: 0;
-    width: 0;
-    height: 3px;
-    background-color: #00ff84; /* Цвет линии */
-    transition: width 0.5s ease;
-}
-
-#navbar .dropdown ul li a:hover::after {
-    width: 100%; /* Линия растягивается на всю ширину при наведении */
-}
-
 .navbar-search input {
     outline: none;
     padding: 8px;
