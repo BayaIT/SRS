@@ -1,14 +1,14 @@
 import React, { useEffect, useState } from "react";
 import { useParams, useNavigate } from "react-router-dom";
-import "../CompanyDetails.css"; // Подключаем стили
+import "../CompanyDetails.css";
 
 const CompanyDetails = () => {
     const { id } = useParams();
-    const navigate = useNavigate(); // Для навигации
+    const navigate = useNavigate();
     const [company, setCompany] = useState(null);
     const [loading, setLoading] = useState(true);
-    const [activeTab, setActiveTab] = useState("about"); // Управление вкладками
-    const [vacancies, setVacancies] = useState([]); // Хранение вакансий
+    const [activeTab, setActiveTab] = useState("about");
+    const [vacancies, setVacancies] = useState([]);
     const [vacanciesLoading, setVacanciesLoading] = useState(false);
 
     useEffect(() => {
@@ -28,12 +28,10 @@ const CompanyDetails = () => {
     }, [id]);
 
     const fetchVacancies = async () => {
-        if (vacancies.length > 0) return; // Не загружать повторно, если данные уже есть
+        if (vacancies.length > 0) return;
         setVacanciesLoading(true);
         try {
-            const response = await fetch(
-                `https://api.hh.ru/vacancies?employer_id=${id}`
-            );
+            const response = await fetch(`https://api.hh.ru/vacancies?employer_id=${id}`);
             const data = await response.json();
             setVacancies(data.items || []);
         } catch (error) {
@@ -104,7 +102,7 @@ const CompanyDetails = () => {
                                     <li
                                         key={vacancy.id}
                                         className="vacancy-item"
-                                        onClick={() => navigate(`/job/${vacancy.id}`)} // Переход к JobDetails
+                                        onClick={() => navigate(`/job/${vacancy.id}`)}
                                     >
                                         <span className="vacancy-title">{vacancy.name}</span>
                                         <p>
