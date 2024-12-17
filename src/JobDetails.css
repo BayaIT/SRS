@@ -1,0 +1,67 @@
+/* JobDetails.css */
+
+/* Общий контейнер */
+.job-details-container {
+    padding: 16px;
+    max-width: 1200px;
+    margin: 0 auto;
+    background-color: #ffffff;
+    color: #333333; /* Тёмный текст для контраста */
+}
+
+/* Кнопка назад */
+.job-details-back-button {
+    margin-bottom: 16px;
+    padding: 8px 16px;
+    border: 2px solid #333333;
+    border-radius: 8px;
+    background-color: white;
+    color: #333333;
+    cursor: pointer;
+    font-weight: bold;
+    transition: background-color 0.3s, color 0.3s;
+}
+
+.job-details-back-button:hover {
+    background-color: #333333;
+    color: #ffffff;
+}
+
+/* Заголовок */
+.job-details-header {
+    margin-bottom: 16px;
+    color: #000000; /* Чёрный цвет для заголовка */
+    font-size: 28px;
+}
+
+/* Параграфы с данными */
+.job-details-info p {
+    margin-bottom: 8px;
+    color: #333333; /* Читаемый тёмно-серый цвет */
+    font-size: 16px;
+}
+
+/* Кнопка сохранения вакансии */
+.job-details-save-button {
+    margin-top: 16px;
+    padding: 8px 16px;
+    background-color: #28a745; /* Зелёный для сохранения */
+    color: #ffffff;
+    border: 2px solid #218838;
+    border-radius: 4px;
+    cursor: pointer;
+    font-weight: bold;
+    transition: background-color 0.3s;
+}
+
+.job-details-save-button:hover {
+    background-color: #218838; /* Темнее зелёный при наведении */
+}
+
+/* Сообщение о загрузке или отсутствии данных */
+.job-details-loading,
+.job-details-error {
+    color: #ff0000; /* Красный текст для предупреждений */
+    font-size: 18px;
+    text-align: center;
+}

@@ -1,0 +1,75 @@
+/* Стили для страницы профиля */
+.profile-container {
+    padding: 20px;
+    background-color: #ffffff; /* Белый фон */
+    color: #333; /* Темный текст для контраста */
+    min-height: 100vh;
+}
+
+.profile-container h2 {
+    font-size: 28px;
+    color: #333; /* Темный текст для заголовка */
+}
+
+.profile-container h3 {
+    font-size: 22px;
+    margin-bottom: 10px;
+    color: #333; /* Темный текст для подзаголовков */
+}
+
+.profile-container p {
+    font-size: 16px;
+    margin: 5px 0;
+    color: #333; /* Темный цвет для текста */
+}
+
+button {
+    padding: 10px 20px;
+    background-color: #333; /* Черный цвет */
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+button:hover {
+    background-color: #000; /* Темно-черный цвет при наведении */
+}
+
+form div {
+    margin-bottom: 15px;
+}
+
+form label {
+    font-size: 16px;
+    color: #333; /* Темный цвет для текста метки */
+}
+
+form input, form textarea {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    font-size: 16px;
+    background-color: #ffffff; /* Белый фон для полей */
+    color: #333; /* Темный цвет для текста в полях */
+}
+
+form textarea {
+    resize: vertical;
+}
+
+form button {
+    width: 100%;
+    padding: 12px;
+    background-color: #333; /* Черный цвет */
+    color: white;
+    border: none;
+    border-radius: 5px;
+    font-size: 16px;
+}
+
+form button:hover {
+    background-color: #000; /* Темно-черный цвет при наведении */
+}

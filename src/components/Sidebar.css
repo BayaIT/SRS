@@ -22,7 +22,7 @@
 
 .sidebar ul li a {
     text-decoration: none;
-    color: #333;
+    color: #000000;
     font-weight: bold;
     transition: color 0.3s;
 }

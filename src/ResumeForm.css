@@ -1,0 +1,84 @@
+/* Стили для формы создания резюме */
+.resume-form-container {
+    padding: 20px;
+    background-color: #ffffff; /* Белый фон */
+    color: #333; /* Темный текст */
+    min-height: 100vh;
+}
+
+.resume-form-container h2 {
+    font-size: 28px;
+    color: #333;
+    margin-bottom: 20px;
+}
+
+.resume-form-container label {
+    font-size: 16px;
+    color: #333;
+    margin-bottom: 8px;
+    display: block;
+}
+
+.resume-form-container input,
+.resume-form-container textarea {
+    width: 100%;
+    padding: 12px;
+    font-size: 16px;
+    border: 1px solid #ccc; /* Легкая граница */
+    border-radius: 5px;
+    background-color: #f9f9f9; /* Легкий фон для полей */
+    color: #333;
+    margin-bottom: 20px;
+}
+
+.resume-form-container input:focus,
+.resume-form-container textarea:focus {
+    background-color: #ffffff; /* Белый фон при фокусе */
+    border-color: #333; /* Темная граница при фокусе */
+    outline: none;
+}
+
+.resume-form-container textarea {
+    resize: vertical;
+    min-height: 150px;
+}
+
+.resume-form-container button {
+    padding: 12px 20px;
+    background-color: #333; /* Черный цвет */
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+    width: 100%;
+    font-size: 16px;
+}
+
+.resume-form-container button:hover {
+    background-color: #000; /* Темно-черный цвет при наведении */
+}
+
+/* Стили для полей при ошибке */
+.error-message {
+    color: red;
+    font-size: 14px;
+    margin-bottom: 15px;
+}
+
+/* Адаптивность для мобильных устройств */
+@media (max-width: 768px) {
+    .resume-form-container {
+        padding: 15px;
+    }
+
+    .resume-form-container input,
+    .resume-form-container textarea {
+        font-size: 14px;
+        padding: 10px;
+    }
+
+    .resume-form-container button {
+        font-size: 14px;
+    }
+}
