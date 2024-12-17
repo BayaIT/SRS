@@ -8,6 +8,7 @@ import SearchResultsPage from "./components/SearchResultPage.jsx";
 import CompanyDetails from "./components/CompanyDetails.jsx";
 import ProfilePage from "./components/ProfilePage.jsx";
 import SavedVacancies from "./components/SavedVacancies.jsx"; // Импорт страницы сохранённых вакансий
+import 'bootstrap/dist/css/bootstrap.min.css';
 
 function App() {
     return (

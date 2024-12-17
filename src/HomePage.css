@@ -1,3 +1,4 @@
+/* Контейнер вакансий */
 .jobs-container {
     display: flex;
     flex-direction: column;
@@ -7,18 +8,30 @@
     max-width: 800px;
 }
 
+/* Стили карточки */
 .card-container {
     width: 100%;
     max-width: 600px;
-    border: 1px solid #ddd;
-    border-radius: 8px;
+    border: 2px solid #000; /* Обводка карточки */
+    border-radius: 12px; /* Скругление углов */
     padding: 16px;
     background-color: #fff;
     box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
     transition: box-shadow 0.3s ease, transform 0.3s ease;
+    overflow: hidden; /* Чтобы изображение не выходило за пределы карточки */
 }
 
+/* Эффект при наведении на карточку */
 .card-container:hover {
     transform: translateY(-5px); /* Эффект при наведении */
     box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2); /* Усиление тени */
+}
+
+/* Стили для изображения */
+.card-container img {
+    width: 250px; /* Задаем точный размер изображения */
+    height: 250px;
+    object-fit: cover; /* Сохраняет пропорции изображения при изменении размеров */
+    border-radius: 8px; /* Скругление углов изображения */
+    margin-bottom: 16px; /* Отступ снизу для разделения с текстом */
 }
