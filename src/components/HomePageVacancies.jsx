@@ -107,13 +107,13 @@ const HomePageVacancies = () => {
                                 />
                                 <div className="card-body d-flex flex-column" style={{paddingLeft: "16px"}}>
                                     <h5 className="card-title">{job.name}</h5>
-                                    <p className="card-text">
+                                    <p className="card-text" style={{textAlign: "left"}}>
                                         <strong>Компания:</strong> {job.employer.name}
                                     </p>
-                                    <p className="card-text">
+                                    <p className="card-text" style={{textAlign: "left"}}>
                                         <strong>Город:</strong> {job.area.name}
                                     </p>
-                                    <p className="card-text">
+                                    <p className="card-text" style={{textAlign: "left"}}>
                                         <strong>Зарплата:</strong>{" "}
                                         {job.salary
                                             ? `${job.salary.from || "Не указана"} - ${job.salary.to || "Не указана"}`

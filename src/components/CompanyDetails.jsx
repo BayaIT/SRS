@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from "react";
 import { useParams, useNavigate } from "react-router-dom";
-import "../CompanyDetails.css";
 
 const CompanyDetails = () => {
     const { id } = useParams();
@@ -45,79 +44,123 @@ const CompanyDetails = () => {
     if (!company) return <p>Данные о компании не найдены!</p>;
 
     return (
-        <div className="company-details-container">
-            {/* Sidebar */}
-            <div className="sidebar">
-                {company.logo_urls?.original && (
-                    <img
-                        src={company.logo_urls.original}
-                        alt={`Логотип ${company.name}`}
-                        className="sidebar-logo"
-                    />
-                )}
-                <p className="sidebar-info">Локация: {company.areas?.[0]?.name || "Не указано"}</p>
-                <p className="sidebar-info">Активных вакансий: {company.open_vacancies || "0"}</p>
-                <p className="sidebar-info">
-                    Сферы деятельности:{" "}
-                    {company.industries?.map((industry) => industry.name).join(", ") || "Не указано"}
-                </p>
-            </div>
-
-            {/* Main Content */}
-            <div className="main-content">
-                <h1 className="company-title">{company.name}</h1>
-                <div className="tabs-row">
-                    <button
-                        className={`tab-button ${activeTab === "about" ? "active" : ""}`}
-                        onClick={() => setActiveTab("about")}
-                    >
-                        О компании
-                    </button>
-                    <button
-                        className={`tab-button ${activeTab === "vacancies" ? "active" : ""}`}
-                        onClick={() => {
-                            setActiveTab("vacancies");
-                            fetchVacancies();
-                        }}
-                    >
-                        Вакансии
-                    </button>
-                </div>
-                <div className="tab-content">
-                    {activeTab === "about" && (
-                        <p className="company-description">
-                            {company.description
-                                ? company.description.replace(/<\/?[^>]+(>|$)/g, "")
-                                : "Описание не указано"}
-                        </p>
-                    )}
-                    {activeTab === "vacancies" && (
-                        <div>
-                            {vacanciesLoading && <p>Загрузка вакансий...</p>}
-                            {vacancies.length === 0 && !vacanciesLoading && (
-                                <p>Вакансий не найдено.</p>
-                            )}
-                            <ul className="vacancies-list">
-                                {vacancies.map((vacancy) => (
-                                    <li
-                                        key={vacancy.id}
-                                        className="vacancy-item"
-                                        onClick={() => navigate(`/job/${vacancy.id}`)}
-                                    >
-                                        <span className="vacancy-title">{vacancy.name}</span>
-                                        <p>
-                                            Зарплата:{" "}
-                                            {vacancy.salary
-                                                ? `${vacancy.salary.from || 0} - ${
-                                                    vacancy.salary.to || "Не указано"
-                                                } ${vacancy.salary.currency}`
-                                                : "Не указана"}
-                                        </p>
-                                    </li>
-                                ))}
-                            </ul>
+        <div className="container my-4">
+            <div className="row">
+                {/* Sidebar */}
+                <div className="col-md-3 mb-4">
+                    <div className="card shadow-sm border-dark">
+                        {company.logo_urls?.original && (
+                            <img
+                                src={company.logo_urls.original}
+                                alt="Логотип компании"
+                                className="card-img-top p-3"
+                                style={{ objectFit: "contain", height: "200px" }}
+                            />
+                        )}
+                        <div className="card-body">
+                            <p className="card-text">
+                                <strong>Локация:</strong> {company.areas?.[0]?.name || "Не указано"}
+                            </p>
+                            <p className="card-text">
+                                <strong>Активных вакансий:</strong>{" "}
+                                {company.open_vacancies || "0"}
+                            </p>
+                            <p className="card-text">
+                                <strong>Сферы деятельности:</strong>{" "}
+                                {company.industries
+                                    ?.map((industry) => industry.name)
+                                    .join(", ") || "Не указано"}
+                            </p>
                         </div>
-                    )}
+                    </div>
+                </div>
+
+                {/* Main Content */}
+                <div className="col-md-9">
+                    <div className="d-flex justify-content-start mb-3">
+                        {/* Кнопка "Назад" */}
+                        <button
+                            className="btn btn-outline-secondary"
+                            onClick={() => navigate(-1)}
+                        >
+                            ← Назад
+                        </button>
+                    </div>
+
+                    <div className="card shadow-sm border-dark">
+                        <div className="card-header bg-dark text-white">
+                            <h3 className="mb-0">{company.name}</h3>
+                        </div>
+
+                        <div className="card-body">
+                            <ul className="nav nav-tabs mb-3">
+                                <li className="nav-item">
+                                    <button
+                                        className={`nav-link ${
+                                            activeTab === "about" ? "active" : ""
+                                        }`}
+                                        onClick={() => setActiveTab("about")}
+                                    >
+                                        О компании
+                                    </button>
+                                </li>
+                                <li className="nav-item">
+                                    <button
+                                        className={`nav-link ${
+                                            activeTab === "vacancies" ? "active" : ""
+                                        }`}
+                                        onClick={() => {
+                                            setActiveTab("vacancies");
+                                            fetchVacancies();
+                                        }}
+                                    >
+                                        Вакансии
+                                    </button>
+                                </li>
+                            </ul>
+
+                            {/* Tab Content */}
+                            {activeTab === "about" && (
+                                <p className="text-muted">
+                                    {company.description
+                                        ? company.description.replace(/<\/?[^>]+(>|$)/g, "")
+                                        : "Описание не указано"}
+                                </p>
+                            )}
+
+                            {activeTab === "vacancies" && (
+                                <div>
+                                    {vacanciesLoading && (
+                                        <p className="text-center">Загрузка вакансий...</p>
+                                    )}
+                                    {!vacanciesLoading && vacancies.length === 0 && (
+                                        <p className="text-center">Вакансий не найдено.</p>
+                                    )}
+
+                                    <ul className="list-group">
+                                        {vacancies.map((vacancy) => (
+                                            <li
+                                                key={vacancy.id}
+                                                className="list-group-item d-flex justify-content-between align-items-center"
+                                                onClick={() => navigate(`/job/${vacancy.id}`)}
+                                                style={{ cursor: "pointer" }}
+                                            >
+                                                <span>{vacancy.name}</span>
+                                                <span className="text-muted">
+                                                    Зарплата:{" "}
+                                                    {vacancy.salary
+                                                        ? `${vacancy.salary.from || 0} - ${
+                                                            vacancy.salary.to || "Не указано"
+                                                        } ${vacancy.salary.currency}`
+                                                        : "Не указана"}
+                                                </span>
+                                            </li>
+                                        ))}
+                                    </ul>
+                                </div>
+                            )}
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>

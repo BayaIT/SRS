@@ -1,7 +1,5 @@
-// JobDetails.js
 import React, { useEffect, useState } from "react";
 import { useLocation, useNavigate, useParams } from "react-router-dom";
-import "../JobDetails.css";
 
 const removeHtmlTags = (str) => {
     return str.replace(/<\/?[^>]+(>|$)/g, "");
@@ -36,7 +34,6 @@ const JobDetails = () => {
 
     const saveJob = () => {
         const savedJobs = JSON.parse(localStorage.getItem("savedJobs")) || [];
-        // Проверка на дубликаты
         if (!savedJobs.find((savedJob) => savedJob.id === job.id)) {
             localStorage.setItem("savedJobs", JSON.stringify([...savedJobs, job]));
             alert("Вакансия сохранена!");
@@ -47,17 +44,19 @@ const JobDetails = () => {
 
     if (loading) {
         return (
-            <p className="job-details-info" style={{ textAlign: "center" }}>
-                Загрузка данных...
-            </p>
+            <div className="d-flex justify-content-center mt-5">
+                <div className="spinner-border" role="status">
+                    <span className="visually-hidden">Загрузка...</span>
+                </div>
+            </div>
         );
     }
 
     if (!job) {
         return (
-            <p className="job-details-info" style={{ textAlign: "center" }}>
-                Данные о вакансии не найдены!
-            </p>
+            <div className="text-center mt-5">
+                <p className="text-danger">Данные о вакансии не найдены!</p>
+            </div>
         );
     }
 
@@ -73,29 +72,36 @@ const JobDetails = () => {
     };
 
     return (
-        <div className="job-details-container">
-            {/* Кнопка назад */}
-            <button
-                onClick={() => navigate(-1)}
-                className="job-details-back-button"
-            >
-                Назад
-            </button>
-
-            {/* Информация о компании */}
-            <div>
-                <h1 className="job-details-header">Детали вакансии</h1>
-                {Object.entries(usefulData).map(([key, value]) => (
-                    <p key={key} className="job-details-info">
-                        <strong>{key}:</strong> {value}
-                    </p>
-                ))}
+        <div className="container my-4">
+            {/* Основной блок с информацией */}
+            <div className="card shadow-sm border-dark">
+                <div className="card-header bg-dark text-white">
+                    <h4 className="mb-0">Детали вакансии</h4>
+                </div>
+                <div className="card-body">
+                    {Object.entries(usefulData).map(([key, value]) => (
+                        <div key={key} className="mb-2">
+                            <p className="mb-1">
+                                <strong>{key}:</strong>
+                            </p>
+                            <p className="text-muted">{value}</p>
+                        </div>
+                    ))}
+                </div>
             </div>
 
-            {/* Кнопка сохранить */}
-            <button onClick={saveJob} className="job-details-save-button">
-                Сохранить вакансию
-            </button>
+            {/* Кнопки внизу */}
+            <div className="d-flex justify-content-end mt-4">
+                <button
+                    onClick={() => navigate(-1)}
+                    className="btn btn-outline-secondary me-2"
+                >
+                    ← Назад
+                </button>
+                <button onClick={saveJob} className="btn btn-primary">
+                    Сохранить вакансию
+                </button>
+            </div>
         </div>
     );
 };
