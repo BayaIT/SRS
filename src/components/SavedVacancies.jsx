@@ -34,14 +34,16 @@ const SavedVacancies = () => {
         <div className="container">
             <h2 className="text-center my-4 text-black">Сохранённые вакансии</h2>
             <div className="d-flex flex-column align-items-center position-relative">
-                {/* Иконка мусорки в правом верхнем углу для удаления всех вакансий */}
-                <div
-                    className="position-absolute top-0 end-0 p-3"
-                    style={{ cursor: "pointer" }}
-                    onClick={removeAllFromSaved}
-                >
-                    <FaTrash size={30} color="black" />
-                </div>
+                {/* Убираем иконку мусорки, если нет сохранённых вакансий */}
+                {savedJobs.length > 0 && (
+                    <div
+                        className="position-absolute top-0 end-0 p-3"
+                        style={{ cursor: "pointer" }}
+                        onClick={removeAllFromSaved}
+                    >
+                        <FaTrash size={30} color="black" />
+                    </div>
+                )}
 
                 {savedJobs.length > 0 ? (
                     savedJobs.map((job) => (

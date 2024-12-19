@@ -8,11 +8,11 @@ import SearchResultsPage from "./components/SearchResultPage.jsx";
 import CompanyDetails from "./components/CompanyDetails.jsx";
 import ProfilePage from "./components/ProfilePage.jsx";
 import SavedVacancies from "./components/SavedVacancies.jsx"; // Импорт страницы сохранённых вакансий
-import EventPage from "./components/EventPage.jsx"; // Импорт страницы создания мероприятия
-import EventsPage from "./components/EventsPage.jsx"; // Импорт страницы всех мероприятий
+import CreateEventPage from "./components/Events/CreateEventPage.jsx"; // Импорт страницы создания мероприятия
+import EventsPage from "./components/Events/EventsPage.jsx"; // Импорт страницы всех мероприятий
 import 'bootstrap/dist/css/bootstrap.min.css';
-import EventDetailsPage from "./components/EventsDetailsPage.jsx";
-import EditEventPage from "./components/EditEventPage.jsx";
+import EventDetailsPage from "./components/Events/EventsDetailsPage.jsx";
+import EditEventPage from "./components/Events/EditEventPage.jsx";
 
 function App() {
     return (
@@ -26,7 +26,7 @@ function App() {
                     <Route path="/company/:id" element={<CompanyDetails />} />
                     <Route path="/profile" element={<ProfilePage />} />
                     <Route path="/vacancies" element={<SavedVacancies />} />
-                    <Route path="/event" element={<EventPage />} /> {/* Маршрут для страницы создания мероприятия */}
+                    <Route path="/event" element={<CreateEventPage />} /> {/* Маршрут для страницы создания мероприятия */}
                     <Route path="/events" element={<EventsPage />} /> {/* Маршрут для страницы всех мероприятий */}
                     <Route path="/event-details" element={<EventDetailsPage />} />
                     <Route path="/edit-event/:id" element={<EditEventPage />} />

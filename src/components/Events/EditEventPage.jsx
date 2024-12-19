@@ -37,9 +37,9 @@ const EditEventPage = () => {
         e.preventDefault();
         const events = JSON.parse(localStorage.getItem("events")) || [];
         const updatedEvents = events.map((ev) =>
-            ev.id === event.id ? { ...ev, ...formData } : ev
-        ); // Обновляем только мероприятие с соответствующим ID
-        localStorage.setItem("events", JSON.stringify(updatedEvents));
+            ev.id === event.id ? { ...ev, ...formData } : ev // Обновляем только событие с соответствующим ID
+        );
+        localStorage.setItem("events", JSON.stringify(updatedEvents)); // Сохраняем изменения
         alert("Изменения сохранены!");
         navigate("/events");
     };

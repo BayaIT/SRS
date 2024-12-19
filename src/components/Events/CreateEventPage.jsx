@@ -1,16 +1,18 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 
-const EventPage = () => {
+const CreateEventPage = () => {
     // Состояние для формы
     const [eventData, setEventData] = useState({
         name: "",
         description: "",
         date: "",
+        time: "",  // Время в 24-часовом формате
         organizer: "",
         location: "",
         isOnline: false,
         isRegistrationOpen: false,
         photo: "", // для хранения фото
+        registrationLink: "", // для ссылки на форму регистрации
     });
 
     // Функция для обработки изменений в форме
@@ -40,22 +42,53 @@ const EventPage = () => {
     // Функция для сохранения мероприятия
     const handleSubmit = (e) => {
         e.preventDefault();
+
+        // Преобразуем время в 24-часовой формат, если нужно
+        const formattedTime = formatTimeTo24Hour(eventData.time);
+
         const events = JSON.parse(localStorage.getItem("events")) || [];
-        const newEvent = { ...eventData, id: crypto.randomUUID() || Date.now() }; // Генерация уникального ID
+        const newEvent = { ...eventData, time: formattedTime, id: crypto.randomUUID() }; // Генерация уникального ID
         events.push(newEvent);
-        localStorage.setItem("events", JSON.stringify(events));
+        localStorage.setItem("events", JSON.stringify(events)); // Сохраняем события с уникальным ID
         alert("Мероприятие сохранено!");
         setEventData({
             name: "",
             description: "",
             date: "",
+            time: "",
             organizer: "",
             location: "",
             isOnline: false,
             isRegistrationOpen: false,
             photo: "",
+            registrationLink: "", // Очищаем поле ссылки на регистрацию
         });
     };
+
+    // Функция для форматирования времени в 24-часовой формат
+    const formatTimeTo24Hour = (time) => {
+        const [hours, minutes] = time.split(":");
+        let hours24 = parseInt(hours, 10);
+        if (hours24 < 10) {
+            hours24 = `0${hours24}`;
+        }
+        return `${hours24}:${minutes}`;
+    };
+
+    // Получаем завтрашнюю дату для минимальной
+    const tomorrow = new Date();
+    tomorrow.setDate(tomorrow.getDate() + 1);
+    const minDate = tomorrow.toISOString().split("T")[0];
+
+    useEffect(() => {
+        // Если локация указана, автоматически выключаем "онлайн"
+        if (eventData.location) {
+            setEventData((prevData) => ({
+                ...prevData,
+                isOnline: false,
+            }));
+        }
+    }, [eventData.location]); // Запускать при изменении location
 
     return (
         <div className="container">
@@ -88,13 +121,23 @@ const EventPage = () => {
                 </div>
 
                 <div className="mb-3 w-50">
-                    <label htmlFor="date" className="form-label">Дата и время</label>
+                    <label htmlFor="date" className="form-label">Дата</label>
                     <input
-                        type="datetime-local"
-                        className="form-control"
-                        id="date"
+                        type="date"
                         name="date"
                         value={eventData.date}
+                        onChange={handleChange}
+                        min={minDate}  // Минимальная дата - завтрашняя
+                        required
+                    />
+                </div>
+
+                <div className="mb-3 w-50">
+                    <label htmlFor="time" className="form-label">Время</label>
+                    <input
+                        type="time"
+                        name="time"
+                        value={eventData.time}
                         onChange={handleChange}
                         required
                     />
@@ -113,18 +156,20 @@ const EventPage = () => {
                     />
                 </div>
 
-                <div className="mb-3 w-50">
-                    <label htmlFor="location" className="form-label">Локация/Онлайн</label>
-                    <input
-                        type="text"
-                        className="form-control"
-                        id="location"
-                        name="location"
-                        value={eventData.location}
-                        onChange={handleChange}
-                        required
-                    />
-                </div>
+                {!eventData.isOnline && (
+                    <div className="mb-3 w-50">
+                        <label htmlFor="location" className="form-label">Локация</label>
+                        <input
+                            type="text"
+                            className="form-control"
+                            id="location"
+                            name="location"
+                            value={eventData.location}
+                            onChange={handleChange}
+                            required
+                        />
+                    </div>
+                )}
 
                 <div className="mb-3 w-50 form-check">
                     <input
@@ -165,6 +210,18 @@ const EventPage = () => {
                     />
                 </div>
 
+                <div className="mb-3 w-50">
+                    <label htmlFor="registrationLink" className="form-label">Ссылка на форму регистрации</label>
+                    <input
+                        type="url"
+                        className="form-control"
+                        id="registrationLink"
+                        name="registrationLink"
+                        value={eventData.registrationLink}
+                        onChange={handleChange}
+                    />
+                </div>
+
                 <button type="submit" className="btn btn-dark w-50">
                     Создать мероприятие
                 </button>
@@ -173,4 +230,4 @@ const EventPage = () => {
     );
 };
 
-export default EventPage;
+export default CreateEventPage;
